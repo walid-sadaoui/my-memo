@@ -25,7 +25,7 @@
     "watch:css": "postcss src/assets/styles/index.css -o src/index.css -w",
     "lint": "eslint --ext js,ts,tsx --ignore-path .gitignore .",
     "lint:fix": "eslint --ext js,ts,tsx . --fix",
-    "lint:css": "stylelint \"**/*.css\""
+    "lint:css": "stylelint \"src/assets/styles/*.css\""
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -71,7 +71,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,css,json,md}": "prettier --write",
     "*.{ts,tsx,js}": "eslint --ext js,ts,tsx .",
-    "*.css": "stylelint --fix"
+    "src/assets/styles/*.css": "stylelint --fix"
   },
   "config": {
     "commitizen": {
