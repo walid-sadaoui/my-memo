@@ -26,10 +26,10 @@ module.exports = {
         content: "#999CA4",
       },
       gridTemplateColumns: {
-        home: "1fr auto",
+        auto: "auto 1fr",
       },
       gridTemplateRows: {
-        home: "1fr auto",
+        auto: "auto 1fr",
       },
     },
   },

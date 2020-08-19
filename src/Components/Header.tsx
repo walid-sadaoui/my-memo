@@ -11,7 +11,7 @@ interface HeaderProps {
 
 const Header: FunctionComponent<HeaderProps> = ({ title }) => {
   return (
-    <header className="bg-secondary">
+    <header className="col-span-2">
       <nav className="flex items-center justify-between p-4 font-content">
         <span className="font-hand text-3xl text-white pl-2 mr-6">{title}</span>
         <div className="flex-grow flex items-center text-lg">
