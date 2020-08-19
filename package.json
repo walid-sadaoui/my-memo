@@ -32,8 +32,6 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@types/node": "^13.13.7",
-    "@types/react": "^16.9.32",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "commitizen": "^4.1.2",
@@ -63,6 +61,17 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,css,json,md}": "prettier --write",
+    "*.{ts,tsx,js}": "eslint --ext js,ts,tsx .",
+    "*.css": "stylelint --fix"
   },
   "config": {
     "commitizen": {
