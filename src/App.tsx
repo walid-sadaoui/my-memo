@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
-import SortableItems from "./Components/SortableItems";
+import SortableItems from "./Components/Notes";
 
 const App: FunctionComponent = () => {
   return (
