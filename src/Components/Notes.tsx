@@ -31,6 +31,19 @@ const Notes: FunctionComponent = () => {
       .then((note) => setNotes([...notes, note]));
   };
 
+  const deleteNote = function (note: Note): void {
+    fetch(`http://localhost:3005/elements/${note.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ description }),
+    }).then((note) => note.json());
+    const newNotes = notes.filter((item) => item.id !== note.id);
+    console.log("New Notes : " + JSON.stringify(newNotes));
+    setNotes(newNotes);
+  };
+
   useEffect(() => {
     fetch(`http://localhost:3005/elements`, {
       method: "GET",
@@ -74,14 +87,17 @@ const Notes: FunctionComponent = () => {
           return (
             <li
               key={value.id}
-              id="element-{index}"
+              id={"note-" + index}
               className="flex items-center px-3 rounded py-1 my-1 mx-4 border-l-4 border-neutral font-medium bg-white text-gray-700"
             >
               <p>{value.description}</p>
               <button className="ml-auto p-2 rounded-full hover:bg-red-100 focus:outline-none">
                 <Pencil className="w-6 h-6" />
               </button>
-              <button className="p-2 rounded-full hover:bg-red-100 focus:outline-none">
+              <button
+                onClick={() => deleteNote(value)}
+                className="p-2 rounded-full hover:bg-red-100 focus:outline-none"
+              >
                 <Trash className="w-6 h-6 text-red-500" />
               </button>
             </li>
