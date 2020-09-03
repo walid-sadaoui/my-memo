@@ -1,11 +1,36 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useState,
+  useEffect,
+  ChangeEvent,
+  MouseEvent,
+} from "react";
 import { ReactComponent as Plus } from "../assets/images/plus.svg";
 import { ReactComponent as Trash } from "../assets/images/trash.svg";
 import { ReactComponent as Pencil } from "../assets/images/pencil.svg";
 import { Note } from "../models/Note";
 
 const Notes: FunctionComponent = () => {
-  const [items, setItems] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [description, setDescription] = useState<string>("");
+
+  const handleChange = function (event: ChangeEvent<HTMLInputElement>): void {
+    console.log(event.target.value);
+    setDescription(event.target.value);
+  };
+  const addNote = function (event: MouseEvent): void {
+    event.preventDefault();
+    fetch(`http://localhost:3005/elements`, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ description }),
+    })
+      .then((note) => note.json())
+      .then((note) => setNotes([...notes, note]));
+  };
+
   useEffect(() => {
     fetch(`http://localhost:3005/elements`, {
       method: "GET",
@@ -13,9 +38,9 @@ const Notes: FunctionComponent = () => {
         "Content-Type": "application/json",
       }),
     })
-      .then((elements) => elements.json())
-      .then((elements) => {
-        setItems(elements);
+      .then((notes) => notes.json())
+      .then((notes) => {
+        setNotes(notes);
       });
     // return () => {
     //   cleanup;
@@ -23,7 +48,7 @@ const Notes: FunctionComponent = () => {
   }, []);
 
   return (
-    <section className="flex flex-col flex-1 font-content">
+    <section className="flex flex-col flex-1 font-content pb-2">
       <header className="flex px-4 py-2 items-center text-gray-900">
         <h1 className="text-2xl font-bold">Notes</h1>
         <form className="flex items-center ml-auto my-1">
@@ -32,15 +57,20 @@ const Notes: FunctionComponent = () => {
             name="newElementInput"
             className="mr-2 rounded-lg py-2 px-4"
             placeholder="Description"
+            onChange={handleChange}
+            value={description}
           />
-          <button className="bg-secondary text-white font-bold py-2 px-4 rounded inline-flex items-center">
+          <button
+            onClick={addNote}
+            className="bg-secondary text-white font-bold py-2 px-4 rounded inline-flex items-center"
+          >
             <Plus className="w-4 h-4 mr-2" />
             <span>Add Element</span>
           </button>
         </form>
       </header>
-      <ul className="p-4 overflow-y-auto">
-        {items.map((value, index) => {
+      <ul className="p-4 flex flex-col-reverse overflow-y-auto">
+        {notes.map((value, index) => {
           return (
             <li
               key={value.id}
