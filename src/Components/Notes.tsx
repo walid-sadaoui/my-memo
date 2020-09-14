@@ -28,7 +28,11 @@ const Notes: FunctionComponent = () => {
       body: JSON.stringify({ description }),
     })
       .then((note) => note.json())
-      .then((note) => setNotes([...notes, note]));
+      .then((note) => {
+        notes.unshift(note);
+        setNotes(notes);
+        setDescription("");
+      });
   };
 
   const deleteNote = function (note: Note): void {
@@ -45,7 +49,7 @@ const Notes: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3005/elements`, {
+    fetch(`http://localhost:3005/elements?_sort=id&_order=desc`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -62,7 +66,7 @@ const Notes: FunctionComponent = () => {
 
   return (
     <section className="flex flex-col flex-1 font-content pb-2">
-      <header className="flex px-4 py-2 items-center text-gray-900">
+      <header className="flex pl-8 pr-12 py-2 items-center text-gray-900">
         <h1 className="text-2xl font-bold">Notes</h1>
         <form className="flex items-center ml-auto my-1">
           <input
@@ -82,7 +86,7 @@ const Notes: FunctionComponent = () => {
           </button>
         </form>
       </header>
-      <ul className="p-4 flex flex-col-reverse overflow-y-auto">
+      <ul className="p-4 flex flex-col overflow-y-auto">
         {notes.map((value, index) => {
           return (
             <li
