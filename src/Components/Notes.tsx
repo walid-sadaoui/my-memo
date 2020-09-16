@@ -9,15 +9,18 @@ import { ReactComponent as Plus } from "../assets/images/plus.svg";
 import { ReactComponent as Trash } from "../assets/images/trash.svg";
 import { ReactComponent as Pencil } from "../assets/images/pencil.svg";
 import { Note } from "../models/Note";
+import Modal from "./Modal";
 
 const Notes: FunctionComponent = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [description, setDescription] = useState<string>("");
+  const [showModal, setModal] = useState<boolean>(false);
 
   const handleChange = function (event: ChangeEvent<HTMLInputElement>): void {
     console.log(event.target.value);
     setDescription(event.target.value);
   };
+
   const addNote = function (event: MouseEvent): void {
     event.preventDefault();
     fetch(`http://localhost:3005/elements`, {
@@ -46,6 +49,10 @@ const Notes: FunctionComponent = () => {
     const newNotes = notes.filter((item) => item.id !== note.id);
     console.log("New Notes : " + JSON.stringify(newNotes));
     setNotes(newNotes);
+  };
+
+  const toggleModal = function (): void {
+    setModal(true);
   };
 
   useEffect(() => {
@@ -99,7 +106,7 @@ const Notes: FunctionComponent = () => {
                 <Pencil className="w-6 h-6" />
               </button>
               <button
-                onClick={() => deleteNote(value)}
+                onClick={() => toggleModal()}
                 className="p-2 rounded-full hover:bg-red-100 focus:outline-none"
               >
                 <Trash className="w-6 h-6 text-red-500" />
@@ -108,6 +115,9 @@ const Notes: FunctionComponent = () => {
           );
         })}
       </ul>
+      {showModal ? (
+        <Modal initialFocus="#yes-button" onExit={() => setModal(false)} />
+      ) : null}
     </section>
   );
 };
