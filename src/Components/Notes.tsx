@@ -38,18 +38,18 @@ const Notes: FunctionComponent = () => {
       });
   };
 
-  const deleteNote = function (note: Note): void {
-    fetch(`http://localhost:3005/elements/${note.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({ description }),
-    }).then((note) => note.json());
-    const newNotes = notes.filter((item) => item.id !== note.id);
-    console.log("New Notes : " + JSON.stringify(newNotes));
-    setNotes(newNotes);
-  };
+  // const deleteNote = function (note: Note): void {
+  //   fetch(`http://localhost:3005/elements/${note.id}`, {
+  //     method: "DELETE",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //     }),
+  //     body: JSON.stringify({ description }),
+  //   }).then((note) => note.json());
+  //   const newNotes = notes.filter((item) => item.id !== note.id);
+  //   console.log("New Notes : " + JSON.stringify(newNotes));
+  //   setNotes(newNotes);
+  // };
 
   const toggleModal = function (): void {
     setModal(true);
