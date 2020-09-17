@@ -13,11 +13,15 @@ import Modal from "./Modal";
 
 const Notes: FunctionComponent = () => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [selectedNote, setSelectedNote] = useState<Note>();
   const [description, setDescription] = useState<string>("");
   const [showModal, setModal] = useState<boolean>(false);
 
+  const deleteNoteTitle = "Delete Note";
+  const deleteNoteMessage =
+    "Voulez-vous vraiment supprimer la note suivante? Cette action est irréversible :";
+
   const handleChange = function (event: ChangeEvent<HTMLInputElement>): void {
-    console.log(event.target.value);
     setDescription(event.target.value);
   };
 
@@ -38,20 +42,22 @@ const Notes: FunctionComponent = () => {
       });
   };
 
-  // const deleteNote = function (note: Note): void {
-  //   fetch(`http://localhost:3005/elements/${note.id}`, {
-  //     method: "DELETE",
-  //     headers: new Headers({
-  //       "Content-Type": "application/json",
-  //     }),
-  //     body: JSON.stringify({ description }),
-  //   }).then((note) => note.json());
-  //   const newNotes = notes.filter((item) => item.id !== note.id);
-  //   console.log("New Notes : " + JSON.stringify(newNotes));
-  //   setNotes(newNotes);
-  // };
+  const deleteNote = function (): void {
+    setModal(false);
+    fetch(`http://localhost:3005/elements/${selectedNote?.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ description }),
+    }).then((note) => note.json());
+    const newNotes = notes.filter((item) => item.id !== selectedNote?.id);
+    console.log("New Notes : " + JSON.stringify(newNotes));
+    setNotes(newNotes);
+  };
 
-  const toggleModal = function (): void {
+  const toggleModal = function (selectedNote: Note): void {
+    setSelectedNote(selectedNote);
     setModal(true);
   };
 
@@ -106,7 +112,7 @@ const Notes: FunctionComponent = () => {
                 <Pencil className="w-6 h-6" />
               </button>
               <button
-                onClick={() => toggleModal()}
+                onClick={(): void => toggleModal(value)}
                 className="p-2 rounded-full hover:bg-red-100 focus:outline-none"
               >
                 <Trash className="w-6 h-6 text-red-500" />
@@ -116,7 +122,19 @@ const Notes: FunctionComponent = () => {
         })}
       </ul>
       {showModal ? (
-        <Modal initialFocus="#yes-button" onExit={() => setModal(false)} />
+        <Modal
+          initialFocus="#modal__button--no"
+          onExit={(): void => setModal(false)}
+          title={deleteNoteTitle}
+          onYes={deleteNote}
+        >
+          <div className="flex flex-col items-center">
+            <p className="text-sm text-gray-500 mt-4">{deleteNoteMessage}</p>
+            <p className="text-sm text-gray-500 mt-4">
+              {selectedNote?.description}
+            </p>
+          </div>
+        </Modal>
       ) : null}
     </section>
   );
