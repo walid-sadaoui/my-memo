@@ -6,10 +6,9 @@ import React, {
   MouseEvent,
 } from "react";
 import { ReactComponent as Plus } from "../assets/images/plus.svg";
-import { ReactComponent as Trash } from "../assets/images/trash.svg";
-import { ReactComponent as Pencil } from "../assets/images/pencil.svg";
 import { Note } from "../models/Note";
 import Modal from "./Modal";
+import NoteItem from "./NoteItem";
 
 const Notes: FunctionComponent = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -100,24 +99,13 @@ const Notes: FunctionComponent = () => {
         </form>
       </header>
       <ul className="p-4 flex flex-col overflow-y-auto">
-        {notes.map((value, index) => {
+        {notes.map((note, index) => {
           return (
-            <li
-              key={value.id}
-              id={"note-" + index}
-              className="flex items-center px-3 rounded py-1 my-1 mx-4 border-l-4 border-neutral font-medium bg-white text-gray-700"
-            >
-              <p>{value.description}</p>
-              <button className="ml-auto p-2 rounded-full hover:bg-red-100 focus:outline-none">
-                <Pencil className="w-6 h-6" />
-              </button>
-              <button
-                onClick={(): void => toggleModal(value)}
-                className="p-2 rounded-full hover:bg-red-100 focus:outline-none"
-              >
-                <Trash className="w-6 h-6 text-red-500" />
-              </button>
-            </li>
+            <NoteItem
+              key={note.id}
+              onDelete={(): void => toggleModal(note)}
+              note={note}
+            />
           );
         })}
       </ul>
