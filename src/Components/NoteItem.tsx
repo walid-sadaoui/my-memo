@@ -18,32 +18,32 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete }) => {
   const [editNote, setEdit] = useState<boolean>(false);
   const [description, setDescription] = useState<string>(note.description);
 
-  const handleChange = function (event: ChangeEvent<HTMLInputElement>): void {
+  const handleChange = function (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ): void {
     setDescription(event.target.value);
   };
 
   const updateNote = function (event: MouseEvent): void {
     event.preventDefault();
-    fetch(`http://localhost:3005/elements/${note.id}`, {
-      method: "PUT",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({ description }),
-    })
-      .then((note) => note.json())
-      .then((note) => {
-        setEdit(false);
+    if (note.description !== description) {
+      fetch(`http://localhost:3005/elements/${note.id}`, {
+        method: "PUT",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ description }),
       });
+    }
+    setEdit(false);
   };
 
   return (
     <li className="flex items-center px-3 rounded py-1 my-1 mx-4 border-l-4 border-neutral font-medium bg-white text-gray-700">
       {editNote ? (
-        <div className="flex items-center">
-          <input
-            className="border-2 rounded h-auto p-2"
-            type="text"
+        <div className="flex items-center w-1/2">
+          <textarea
+            className="border-2 rounded h-auto p-2 flex-grow"
             onChange={handleChange}
             value={description}
           />
@@ -51,7 +51,7 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete }) => {
             onClick={updateNote}
             className="p-2 rounded-full hover:bg-red-100 focus:outline-none"
           >
-            <Check className="w-6 h-6" />
+            <Check className="w-6 h-6 text-success" />
           </button>
         </div>
       ) : (
@@ -61,7 +61,6 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete }) => {
       <button
         onClick={(): void => {
           setEdit(!editNote);
-          setDescription(note.description);
         }}
         className="ml-auto p-2 rounded-full hover:bg-red-100 focus:outline-none"
       >
