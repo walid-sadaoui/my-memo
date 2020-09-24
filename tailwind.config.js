@@ -15,8 +15,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: "#f0f3fc",
-        secondary: "#2b334e",
+        primary: "#2b334e",
+        secondary: "#f0f3fc",
         ternary: "#999CA4",
         neutral: "#5553df",
         success: "colors.green.500",

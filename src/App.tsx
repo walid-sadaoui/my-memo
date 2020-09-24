@@ -10,7 +10,7 @@ const App: FunctionComponent = () => {
       <Sidebar />
       <main
         role="main"
-        className="bg-primary rounded-tl-lg overflow-hidden flex flex-grow"
+        className="bg-white rounded-tl-lg overflow-hidden flex flex-grow"
       >
         <Notes />
       </main>

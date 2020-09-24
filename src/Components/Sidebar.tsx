@@ -20,7 +20,7 @@ const Sidebar: FunctionComponent<SidebarProps> = () => {
           </svg>
         </button>
       </div>
-      <div className="flex flex-col flex-grow font-content text-lg">
+      <div className="flex flex-col flex-grow text-lg">
         <a
           href="#responsive-header"
           className="px-2 mt-4 text-teal-200 hover:text-white mb-4"

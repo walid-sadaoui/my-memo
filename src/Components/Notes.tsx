@@ -77,21 +77,21 @@ const Notes: FunctionComponent = () => {
   }, []);
 
   return (
-    <section className="flex flex-col flex-1 font-content pb-2">
+    <section className="flex flex-col flex-1 pb-2">
       <header className="flex pl-8 pr-12 py-2 items-center text-gray-900">
-        <h1 className="text-2xl font-bold">Notes</h1>
+        <h1 className="text-2xl font-medium text-gray-800">Notes</h1>
         <form className="flex items-center ml-auto my-1">
           <input
             type="text"
             name="newElementInput"
-            className="mr-2 rounded-lg py-2 px-4"
+            className="mr-2 rounded-lg py-2 px-4 bg-gray-200 placeholder-gray-600"
             placeholder="Description"
             onChange={handleChange}
             value={description}
           />
           <button
             onClick={addNote}
-            className="bg-secondary text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            className="bg-blue-900 text-white font-bold py-2 px-4 rounded inline-flex items-center"
           >
             <Plus className="w-4 h-4 mr-2" />
             <span>Add Element</span>
@@ -113,13 +113,14 @@ const Notes: FunctionComponent = () => {
         <Modal
           initialFocus="#modal__button--no"
           onExit={(): void => setModal(false)}
+          onNo={(): void => setModal(false)}
           title={deleteNoteTitle}
           onYes={deleteNote}
         >
           <div className="flex flex-col items-center">
-            <p className="text-sm text-gray-500 mt-4">{deleteNoteMessage}</p>
-            <p className="text-sm text-gray-500 mt-4">
-              {selectedNote?.description}
+            <p className="text-sm text-gray-800 mt-4">{deleteNoteMessage}</p>
+            <p className="text-lg text-gray-800 mt-4">
+              "{selectedNote?.description}"
             </p>
           </div>
         </Modal>
