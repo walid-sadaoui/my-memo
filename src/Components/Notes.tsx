@@ -79,7 +79,7 @@ const Notes: FunctionComponent = () => {
   return (
     <section className="flex flex-col flex-1 pb-2">
       <header className="flex pl-8 pr-12 py-2 items-center text-gray-900">
-        <h1 className="text-2xl font-medium text-gray-800">Notes</h1>
+        <h1 className="text-5xl font-medium font-hand text-gray-800">Notes</h1>
         <form className="flex items-center ml-auto my-1">
           <input
             type="text"
@@ -91,10 +91,10 @@ const Notes: FunctionComponent = () => {
           />
           <button
             onClick={addNote}
-            className="bg-blue-900 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            className="bg-blue-900 text-white py-2 px-4 rounded inline-flex items-center"
           >
             <Plus className="w-4 h-4 mr-2" />
-            <span>Add Element</span>
+            <span>Note</span>
           </button>
         </form>
       </header>

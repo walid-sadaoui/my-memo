@@ -30,7 +30,7 @@
     "lint:fix": "eslint --ext js,ts,tsx . --fix",
     "lint:css": "stylelint \"src/assets/styles/*.css\"",
     "json:server": "json-server --watch db.json",
-    "app": "concurrently \"npm start\" \"npm run json:server\""
+    "dev": "concurrently \"npm start\" \"npm run json:server\" \"npm run watch:css\""
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
