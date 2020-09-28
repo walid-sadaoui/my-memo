@@ -5,3 +5,13 @@ node_js:
 
 script:
   - npm run build
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  local_dir: build
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  target_branch: gh-pages
+  on:
+    branch: master
