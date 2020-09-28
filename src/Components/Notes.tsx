@@ -5,6 +5,7 @@ import React, {
   ChangeEvent,
   MouseEvent,
 } from "react";
+import classNames from "classnames";
 import { ReactComponent as Plus } from "../assets/images/plus.svg";
 import { Note } from "../models/Note";
 import Modal from "./Modal";
@@ -15,6 +16,7 @@ const Notes: FunctionComponent = () => {
   const [selectedNote, setSelectedNote] = useState<Note>();
   const [description, setDescription] = useState<string>("");
   const [showModal, setModal] = useState<boolean>(false);
+  const [inputFocussed, setInputFocus] = useState<boolean>(false);
 
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
@@ -76,17 +78,26 @@ const Notes: FunctionComponent = () => {
     // };
   }, []);
 
+  const newNoteFormClass = classNames({
+    "flex items-center my-1": true,
+    "ml-8 w-full": inputFocussed,
+    "ml-auto": !inputFocussed,
+  });
+
   return (
     <section className="flex flex-col flex-1 pb-2">
       <header className="flex pl-8 pr-12 py-2 items-center text-gray-900">
         <h1 className="text-5xl font-medium font-hand text-gray-800">Notes</h1>
-        <form className="flex items-center ml-auto my-1">
+        <form className={newNoteFormClass}>
           <input
             type="text"
             name="newElementInput"
-            className="mr-2 rounded-lg py-2 px-4 bg-gray-200 placeholder-gray-600"
+            aria-label="New Note input"
+            className="mr-2 flex-grow rounded-lg py-2 px-4 bg-gray-200 placeholder-gray-600 w-full"
             placeholder="Description"
             onChange={handleChange}
+            onFocus={(): void => setInputFocus(true)}
+            onBlur={(): void => setInputFocus(false)}
             value={description}
           />
           <button
