@@ -5,8 +5,9 @@ const NOTES_KEY = "notes";
 export const createNote = (description: string): Note[] => {
   const notes: Note[] = getNotesById();
   notes.reverse();
+  const newNoteId: number = notes.length > 0 ? notes[0].id + 1 : 1;
   const newNote: Note = {
-    id: notes[0].id + 1,
+    id: newNoteId,
     description: description,
     pinned: false,
   };
