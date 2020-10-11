@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
-import Header from "./Components/Header";
-import Sidebar from "./Components/Sidebar";
-import Notes from "./Components/Notes";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Notes from "./components/Notes";
 
 const App: FunctionComponent = () => {
   return (

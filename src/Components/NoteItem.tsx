@@ -1,98 +1,186 @@
 import React, {
   FunctionComponent,
   useState,
+  useRef,
+  useEffect,
   ChangeEvent,
   MouseEvent,
+  FormEvent,
 } from "react";
+import classNames from "classnames";
 import { ReactComponent as Trash } from "../assets/images/trash.svg";
 import { ReactComponent as Pencil } from "../assets/images/pencil.svg";
 import { ReactComponent as Check } from "../assets/images/check.svg";
 import { ReactComponent as X } from "../assets/images/x.svg";
-import { ReactComponent as Bookmark } from "../assets/images/bookmark.svg";
+import { ReactComponent as Flag } from "../assets/images/flag.svg";
+import ReactTooltip from "react-tooltip";
+import { updateNote } from "../api/notes";
 import { Note } from "../models/Note";
 
 interface NoteProps {
   note: Note;
   onDelete: (event: MouseEvent<HTMLButtonElement>) => void;
+  onPin: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete }) => {
+const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
   const [editNote, setEdit] = useState<boolean>(false);
-  const [description, setDescription] = useState<string>(note.description);
+  const [inputFocussed, setInputFocus] = useState<boolean>(false);
+  const [noteSelected, setNote] = useState<Note>(note);
+  const [noteDescription, setNoteDescription] = useState<string>(
+    note.description
+  );
+  const noteItemInput = useRef<HTMLInputElement>(null);
+  const initialRender = useRef<boolean>(true);
 
-  const handleChange = function (event: ChangeEvent<HTMLInputElement>): void {
-    setDescription(event.target.value);
+  useEffect(() => {
+    if (noteItemInput.current?.value !== undefined && inputFocussed) {
+      noteItemInput.current?.focus();
+      noteItemInput.current.setSelectionRange(
+        noteItemInput.current.value.length,
+        noteItemInput.current.value.length
+      );
+    }
+  }, [inputFocussed]);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      updateNote(noteSelected);
+    }
+  }, [noteSelected]);
+
+  const handleChangeDescriptionInput = function (
+    event: ChangeEvent<HTMLInputElement>
+  ): void {
+    setNoteDescription(event.target.value);
   };
 
-  const updateNote = function (event: MouseEvent<HTMLButtonElement>): void {
+  const updateNoteDescription = function (
+    event: FormEvent<HTMLFormElement>
+  ): void {
     event.preventDefault();
-    if (note.description !== description) {
-      fetch(`http://localhost:3005/elements/${note.id}`, {
-        method: "PUT",
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-        body: JSON.stringify({ description }),
-      });
+    if (noteSelected.description !== noteDescription) {
+      setNote({ ...noteSelected, description: noteDescription });
     }
     setEdit(false);
+    setInputFocus(false);
+  };
+
+  const handleKeyDown = function (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void {
+    if (event.key === "Escape") {
+      cancelEditNote();
+    }
+  };
+
+  const cancelEditNote = function (): void {
+    if (noteDescription !== noteSelected.description) {
+      setNoteDescription(noteSelected.description);
+    }
+    setEdit(false);
+    setInputFocus(false);
+  };
+
+  const editSelectedNote = function (): void {
+    setEdit(true);
+    setInputFocus(true);
+    ReactTooltip.hide();
   };
 
   return (
     <li className="flex items-center justify-between px-3 rounded py-1 my-1 mx-4 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-sm">
       <div className="flex w-full">
         <button
-          onClick={updateNote}
-          className="p-2 rounded-full hover:bg-gray-100 mr-2"
+          onClick={onPin}
+          data-tip={!note.pinned ? "Epingler la note" : "Retirer l'épingle"}
+          data-for="pin-note"
+          className={classNames({
+            "p-2 rounded-full mr-2": true,
+            "hover:bg-gray-100": !note.pinned,
+            "hover:bg-red-100": note.pinned,
+          })}
         >
-          <Bookmark className="w-6 h-6 text-gray-600" />
+          <Flag
+            className={classNames({
+              "w-6 h-6": true,
+              "text-gray-600": !note.pinned,
+              "text-red-500": note.pinned,
+            })}
+          />
+          <ReactTooltip id="pin-note" effect="solid" />
         </button>
         {editNote ? (
-          <div className="flex items-center w-full">
+          <form
+            onSubmit={updateNoteDescription}
+            className="flex items-center w-full"
+          >
             <input
+              type="text"
               id={"note-input-" + note.id}
+              name="editNoteInput"
+              aria-label="Edit Note input"
+              ref={noteItemInput}
+              onFocus={(): void => {
+                noteItemInput.current?.setSelectionRange(
+                  noteItemInput.current.value.length,
+                  noteItemInput.current.value.length
+                );
+              }}
               className="border-2 rounded h-auto w-full p-2 flex-grow bg-secondary"
-              onChange={handleChange}
-              value={description}
+              onChange={handleChangeDescriptionInput}
+              onKeyDown={handleKeyDown}
+              value={noteDescription}
             />
             <button
-              onClick={updateNote}
+              type="button"
+              onClick={cancelEditNote}
+              data-tip="Annuler"
+              data-for="cancel-edit"
               className="p-2 rounded-full hover:bg-red-100"
             >
               <X className="w-6 h-6 text-red-500" />
             </button>
+            <ReactTooltip id="cancel-edit" effect="solid" />
             <button
-              onClick={updateNote}
+              type="submit"
+              data-tip="Valider"
+              data-for="update-note"
               className="p-2 rounded-full hover:bg-green-100"
             >
               <Check className="w-6 h-6 text-green-500" />
             </button>
-          </div>
+            <ReactTooltip id="update-note" effect="solid" />
+          </form>
         ) : (
           <div
-            onDoubleClick={(): void => {
-              setEdit(!editNote);
-            }}
-            className="flex w-full border-2 p-2 border-transparent rounded hover:border-gray-100 hover:bg-gray-200"
+            onDoubleClick={editSelectedNote}
+            className="flex items-center w-full border-2 pl-2 border-transparent rounded hover:border-gray-100 hover:bg-gray-200"
           >
-            <p>{description}</p>
+            <p>{noteDescription}</p>
             <button
-              onClick={(): void => {
-                setEdit(!editNote);
-              }}
+              data-tip="Editer la note"
+              data-for="edit-note"
+              onClick={editSelectedNote}
               className="rounded-full ml-2"
             >
               <Pencil className="w-6 h-6 text-gray-600 hover:text-gray-800" />
             </button>
+            <ReactTooltip id="edit-note" effect="solid" />
+            <button
+              onClick={onDelete}
+              data-tip="Supprimer la note"
+              data-for="delete-note"
+              className="ml-auto p-2 rounded-full hover:bg-red-100"
+            >
+              <Trash className="w-6 h-6 text-red-500" />
+              <ReactTooltip id="delete-note" effect="solid" />
+            </button>
           </div>
         )}
       </div>
-      <button
-        onClick={onDelete}
-        className="ml-auto p-2 rounded-full hover:bg-red-100"
-      >
-        <Trash className="w-6 h-6 text-red-500" />
-      </button>
     </li>
   );
 };

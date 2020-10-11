@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/classnames": "^2.2.10",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.54",
     "@types/react": "^16.9.46",
@@ -17,6 +18,7 @@
     "react-aria-modal": "^4.0.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
+    "react-tooltip": "^4.2.10",
     "typescript": "^3.7.5"
   },
   "scripts": {
@@ -29,15 +31,13 @@
     "lint": "eslint --ext js,ts,tsx --ignore-path .gitignore .",
     "lint:fix": "eslint --ext js,ts,tsx . --fix",
     "lint:css": "stylelint \"src/assets/styles/*.css\"",
-    "json:server": "json-server --watch db.json",
-    "dev": "concurrently \"npm start\" \"npm run json:server\" \"npm run watch:css\""
+    "dev": "concurrently \"npm start\" \"npm run watch:css\""
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@types/classnames": "^2.2.10",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "commitizen": "^4.1.2",
@@ -45,6 +45,7 @@
     "cross-env": "^7.0.2",
     "cssnano": "^4.1.10",
     "cz-conventional-changelog": "^3.2.0",
+    "dotenv": "^8.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-flowtype": "^5.1.0",
@@ -54,7 +55,6 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.2",
     "husky": "^4.2.5",
-    "json-server": "^0.16.1",
     "lint-staged": "^10.2.4",
     "npm-run-all": "^4.1.5",
     "postcss-cli": "^7.1.1",
