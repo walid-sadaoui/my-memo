@@ -13,10 +13,13 @@
     "@types/react": "^16.9.46",
     "@types/react-aria-modal": "^4.0.2",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
     "classnames": "^2.2.6",
     "react": "^16.13.1",
     "react-aria-modal": "^4.0.0",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.10.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-tooltip": "^4.2.10",
     "typescript": "^3.7.5"

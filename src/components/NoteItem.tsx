@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { ReactComponent as Trash } from "../assets/images/trash.svg";
-import { ReactComponent as Pencil } from "../assets/images/pencil.svg";
+import { ReactComponent as PencilAlt } from "../assets/images/pencil-alt.svg";
 import { ReactComponent as Check } from "../assets/images/check.svg";
 import { ReactComponent as X } from "../assets/images/x.svg";
 import { ReactComponent as Flag } from "../assets/images/flag.svg";
@@ -91,7 +91,7 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
   };
 
   return (
-    <li className="flex items-center justify-between px-3 rounded py-1 my-1 mx-4 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-sm">
+    <li className="flex items-center justify-between px-3 border-2 border-gray-500 rounded py-1 my-1 mx-4 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-sm">
       <div className="flex w-full">
         <button
           onClick={onPin}
@@ -166,7 +166,7 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
               onClick={editSelectedNote}
               className="rounded-full ml-2"
             >
-              <Pencil className="w-6 h-6 text-gray-600 hover:text-gray-800" />
+              <PencilAlt className="w-6 h-6 text-gray-600 hover:text-gray-800" />
             </button>
             <ReactTooltip id="edit-note" effect="solid" />
             <button

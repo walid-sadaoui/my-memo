@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
-import { ReactComponent as Download } from "../assets/images/download.svg";
-
+import { Link } from "react-router-dom";
+import { ReactComponent as UserCircle } from "../assets/images/user-circle.svg";
 interface HeaderProps {
   title?: string;
   logo?: string;
@@ -13,7 +13,11 @@ const Header: FunctionComponent<HeaderProps> = ({ title }) => {
   return (
     <header className="col-span-2">
       <nav className="flex items-center justify-between p-4 font-sans">
-        <span className="font-hand text-3xl text-white pl-2 mr-6">{title}</span>
+        <Link to="/">
+          <span className="font-hand text-3xl text-white pl-2 mr-6">
+            {title}
+          </span>
+        </Link>
         <div className="flex-grow flex items-center text-lg">
           <a
             href="#responsive-header"
@@ -45,13 +49,13 @@ const Header: FunctionComponent<HeaderProps> = ({ title }) => {
           >
             Dev
           </a>
-          <a
-            href="/"
+          <Link
+            to="/login"
             className="inline-flex items-center p-2 rounded text-white hover:border-transparent hover:text-teal-500 hover:bg-white ml-auto"
           >
-            <Download className="w-6 h-6 mr-2" />
-            <span>Download</span>
-          </a>
+            <UserCircle className="w-6 h-6 mr-2" />
+            <span>Connexion</span>
+          </Link>
         </div>
       </nav>
     </header>

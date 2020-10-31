@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { ReactComponent as Plus } from "../assets/images/plus.svg";
+import { ReactComponent as Exclamation } from "../assets/images/exclamation.svg";
 import { Note } from "../models/Note";
 import Modal from "./Modal";
 import NoteItem from "./NoteItem";
@@ -26,6 +27,7 @@ const Notes: FunctionComponent = () => {
   const [inputFocussed, setInputFocus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const newNoteInput = useRef<HTMLInputElement>(null);
+  const [isLoggedIn] = useState<boolean>(false);
 
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
@@ -98,7 +100,7 @@ const Notes: FunctionComponent = () => {
             name="newNoteInput"
             aria-label="New Note input"
             ref={newNoteInput}
-            className="mr-2 flex-grow rounded-lg py-2 px-4 bg-gray-200 placeholder-gray-700 w-full"
+            className="mr-2 flex-grow rounded-lg border-2 border-gray-500 py-2 px-4 bg-gray-200 placeholder-gray-700 w-full"
             placeholder="Nouvelle note ..."
             onChange={handleChange}
             onFocus={(): void => {
@@ -117,6 +119,16 @@ const Notes: FunctionComponent = () => {
           </button>
         </form>
       </header>
+      {isLoggedIn ? null : (
+        <div className="flex pl-8 items-center">
+          <Exclamation className="w-8 h-8 mr-2 text-red-600" />
+          <p className="text-red-600">
+            Attention vous utilisez la version hors ligne, vous verrez vos notes
+            seulement sur votre navigateur actuel, connectez vous pour pouvoir
+            sauvegarder vos notes et les consulter partout !{" "}
+          </p>
+        </div>
+      )}
       {loading ? (
         <p>Loading ...</p>
       ) : (
