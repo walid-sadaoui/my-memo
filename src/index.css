@@ -12999,7 +12999,7 @@ video {
 }
 
 .grid-cols-auto {
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
 }
 
 .col-auto {
@@ -27570,7 +27570,7 @@ video {
   }
 
   .sm\:grid-cols-auto {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .sm\:col-auto {
@@ -42093,7 +42093,7 @@ video {
   }
 
   .md\:grid-cols-auto {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .md\:col-auto {
@@ -56616,7 +56616,7 @@ video {
   }
 
   .lg\:grid-cols-auto {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .lg\:col-auto {
@@ -71139,7 +71139,7 @@ video {
   }
 
   .xl\:grid-cols-auto {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .xl\:col-auto {

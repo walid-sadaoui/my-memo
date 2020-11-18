@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import { ReactComponent as Cog } from "../assets/images/cog.svg";
 
 interface SidebarProps {
@@ -20,8 +21,8 @@ const Sidebar: FunctionComponent<SidebarProps> = () => {
           </svg>
         </button>
       </div>
-      <div className="flex flex-col flex-grow text-lg">
-        <a
+      <div className="flex flex-col flex-grow text-lg hidden">
+        {/* <a
           href="#responsive-header"
           className="px-2 mt-4 text-teal-200 hover:text-white mb-4"
         >
@@ -38,14 +39,14 @@ const Sidebar: FunctionComponent<SidebarProps> = () => {
           className="px-2 mt-4 text-teal-200 hover:text-white mb-4"
         >
           Blog
-        </a>
-        <a
-          href="/"
+        </a> */}
+        <Link
+          to="/settings"
           className="inline-flex items-center p-2 rounded text-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-auto"
         >
           <Cog className="w-6 h-6 mr-2" />
           <span>Settings</span>
-        </a>
+        </Link>
       </div>
     </nav>
   );

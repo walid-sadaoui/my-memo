@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "UNLICENSED",
+  "author": "Walid SADAOUI, <walidsadaoui@hotmail.fr>",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -15,6 +16,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.6",
     "classnames": "^2.2.6",
+    "js-cookie": "^2.2.1",
     "react": "^16.13.1",
     "react-aria-modal": "^4.0.0",
     "react-dom": "^16.13.1",
@@ -42,6 +44,7 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
+    "@types/js-cookie": "^2.2.6",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "commitizen": "^4.1.2",

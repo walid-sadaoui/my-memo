@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ChangeEvent,
   FormEvent,
+  useContext,
 } from "react";
 import classNames from "classnames";
 import { ReactComponent as Plus } from "../assets/images/plus.svg";
@@ -18,6 +19,7 @@ import {
   deleteNote,
   updateNote,
 } from "../api/notes";
+import { AuthContext } from "../AuthContext";
 
 const Notes: FunctionComponent = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -27,7 +29,7 @@ const Notes: FunctionComponent = () => {
   const [inputFocussed, setInputFocus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const newNoteInput = useRef<HTMLInputElement>(null);
-  const [isLoggedIn] = useState<boolean>(false);
+  const { user } = useContext(AuthContext);
 
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
@@ -119,7 +121,7 @@ const Notes: FunctionComponent = () => {
           </button>
         </form>
       </header>
-      {isLoggedIn ? null : (
+      {user?.id ? null : (
         <div className="flex pl-8 items-center">
           <Exclamation className="w-8 h-8 mr-2 text-red-600" />
           <p className="text-red-600">

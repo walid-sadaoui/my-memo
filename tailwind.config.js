@@ -26,7 +26,7 @@ module.exports = {
         content: "#999CA4",
       },
       gridTemplateColumns: {
-        auto: "auto 1fr",
+        auto: "1fr",
       },
       gridTemplateRows: {
         auto: "auto 1fr",
