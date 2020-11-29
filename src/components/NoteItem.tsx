@@ -33,6 +33,7 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
   const noteItemInput = useRef<HTMLInputElement>(null);
   const initialRender = useRef<boolean>(true);
 
+  // a voir utilité du inputfocussed
   useEffect(() => {
     if (noteItemInput.current?.value !== undefined && inputFocussed) {
       noteItemInput.current?.focus();
@@ -43,23 +44,13 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
     }
   }, [inputFocussed]);
 
-  useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
-      updateNote(noteSelected);
-    }
-  }, [noteSelected]);
-
-  const handleChangeDescriptionInput = function (
+  const handleChangeDescriptionInput = (
     event: ChangeEvent<HTMLInputElement>
-  ): void {
+  ): void => {
     setNoteDescription(event.target.value);
   };
 
-  const updateNoteDescription = function (
-    event: FormEvent<HTMLFormElement>
-  ): void {
+  const updateNoteDescription = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if (noteSelected.description !== noteDescription) {
       setNote({ ...noteSelected, description: noteDescription });
@@ -71,6 +62,7 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
   const handleKeyDown = function (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void {
+    // à voir pour mettre le code plutot {
     if (event.key === "Escape") {
       cancelEditNote();
     }
@@ -89,7 +81,15 @@ const NoteItem: FunctionComponent<NoteProps> = ({ note, onDelete, onPin }) => {
     setInputFocus(true);
     ReactTooltip.hide();
   };
-
+  // creer une fonction à part appelée dans le useeffect
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      updateNote(noteSelected);
+    }
+  }, [noteSelected]);
+  // separe note editable et en lecture
   return (
     <li className="flex items-center justify-between px-3 border-2 border-gray-500 rounded py-1 my-1 mx-4 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-sm">
       <div className="flex w-full">

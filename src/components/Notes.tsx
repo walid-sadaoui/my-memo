@@ -23,7 +23,7 @@ import { AuthContext } from "../AuthContext";
 
 const Notes: FunctionComponent = () => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [selectedNote, setSelectedNote] = useState<Note>();
+  const [selectedNote, setSelectedNote] = useState<Note | undefined>();
   const [description, setDescription] = useState<string>("");
   const [showModal, setModal] = useState<boolean>(false);
   const [inputFocussed, setInputFocus] = useState<boolean>(false);
@@ -31,6 +31,7 @@ const Notes: FunctionComponent = () => {
   const newNoteInput = useRef<HTMLInputElement>(null);
   const { user } = useContext(AuthContext);
 
+  // i18n
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
     "Voulez-vous vraiment supprimer la note suivante? Cette action est irréversible :";
@@ -47,11 +48,12 @@ const Notes: FunctionComponent = () => {
   };
 
   const deleteNoteSelected = function (): void {
-    setModal(false);
     if (selectedNote) {
       deleteNote(selectedNote);
       const updatedNotes: Note[] = getNotesByPinned();
       setNotes(updatedNotes);
+      setModal(false);
+      setSelectedNote(undefined);
     }
   };
 
@@ -60,13 +62,6 @@ const Notes: FunctionComponent = () => {
     setModal(true);
   };
 
-  useEffect(() => {
-    newNoteInput.current?.focus();
-    const sortedNotes: Note[] = getNotesByPinned();
-    setNotes(sortedNotes);
-    setLoading(false);
-  }, []);
-
   const pinNote = function (noteToPin: Note): void {
     noteToPin.pinned = !noteToPin.pinned;
     updateNote(noteToPin);
@@ -74,7 +69,7 @@ const Notes: FunctionComponent = () => {
     setNotes(updatedNotes);
   };
 
-  const getNoteItem: FunctionComponent<Note> = (note: Note) => {
+  const renderNoteItem: FunctionComponent<Note> = (note: Note) => {
     return (
       <NoteItem
         key={note.id}
@@ -84,6 +79,34 @@ const Notes: FunctionComponent = () => {
       />
     );
   };
+
+  const DeleteNoteModal: FunctionComponent = () => {
+    console.log("RENDER MODAL");
+    return (
+      <Modal
+        initialFocus="#modal__button--no"
+        onExit={(): void => setModal(false)}
+        onNo={(): void => setModal(false)}
+        title={deleteNoteTitle}
+        onYes={(): void => deleteNoteSelected()}
+        showModal={showModal}
+      >
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-gray-800 mt-4">{deleteNoteMessage}</p>
+          <p className="text-lg text-gray-800 mt-4">
+            "{selectedNote?.description}"
+          </p>
+        </div>
+      </Modal>
+    );
+  };
+
+  useEffect(() => {
+    newNoteInput.current?.focus();
+    const sortedNotes: Note[] = getNotesByPinned();
+    setNotes(sortedNotes);
+    setLoading(false);
+  }, []);
 
   return (
     <section className="flex flex-col flex-1 pb-2">
@@ -131,40 +154,17 @@ const Notes: FunctionComponent = () => {
           </p>
         </div>
       )}
-      {loading ? (
-        <p>Loading ...</p>
-      ) : (
+      {loading && <p>Loading ...</p>}
+      {notes.length > 0 ? (
         <ul className="p-4 flex flex-col overflow-y-auto">
-          {Array.isArray(notes) ? (
-            notes.length > 0 ? (
-              notes.map((note) => {
-                return getNoteItem(note);
-              })
-            ) : (
-              <p>
-                Aucune Note, ajoutez une nouvelle note pour la voir s'afficher
-                ici
-              </p>
-            )
-          ) : null}
+          {notes.map(renderNoteItem)}
         </ul>
+      ) : (
+        <p>
+          Aucune Note, ajoutez une nouvelle note pour la voir s'afficher ici
+        </p>
       )}
-      {showModal ? (
-        <Modal
-          initialFocus="#modal__button--no"
-          onExit={(): void => setModal(false)}
-          onNo={(): void => setModal(false)}
-          title={deleteNoteTitle}
-          onYes={deleteNoteSelected}
-        >
-          <div className="flex flex-col items-center">
-            <p className="text-sm text-gray-800 mt-4">{deleteNoteMessage}</p>
-            <p className="text-lg text-gray-800 mt-4">
-              "{selectedNote?.description}"
-            </p>
-          </div>
-        </Modal>
-      ) : null}
+      <DeleteNoteModal />
     </section>
   );
 };
