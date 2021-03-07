@@ -1,26 +1,19 @@
-import React, { FunctionComponent } from "react";
-import Header from "./components/Header";
-// import Sidebar from "./components/Sidebar";
-import Notes from "./components/Notes";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import SignUp from "./components/SignUp";
-import LogIn from "./components/LogIn";
-import { AuthProvider } from "./AuthContext";
+import React, { FunctionComponent, useContext } from "react";
+import { AuthContext } from "./AuthContext";
+import Loading from "./components/molecules/Loading";
 
+const AuthenticatedApp = React.lazy(() =>
+  import("./components/AuthenticatedApp")
+);
+const UnauthenticatedApp = React.lazy(() =>
+  import("./components/UnauthenticatedApp")
+);
 const App: FunctionComponent = () => {
+  const { user } = useContext(AuthContext);
   return (
-    <Router>
-      <AuthProvider>
-        <Header title="My Memo" />
-        {/* <Sidebar /> */}
-        <main role="main" className="bg-white overflow-hidden flex flex-grow">
-          <Route exact={true} path="/" component={Notes} />
-          <Route path="/notes" component={Notes} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={LogIn} />
-        </main>
-      </AuthProvider>
-    </Router>
+    <React.Suspense fallback={<Loading />}>
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </React.Suspense>
   );
 };
 

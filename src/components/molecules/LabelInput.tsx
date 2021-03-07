@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import Input from "../atoms/Input";
 
 interface LabelInputProps {
   label: string;
@@ -7,24 +8,28 @@ interface LabelInputProps {
   name: string;
   classname?: string;
   required?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  value?: string;
   maxLength?: number;
 }
 
 const LabelInput = forwardRef<HTMLInputElement, LabelInputProps>(
-  ({ label, type, id, name, maxLength }, ref) => {
+  ({ label, type, id, name, maxLength, ...otherProps }, ref) => {
     return (
       <React.Fragment>
         <label htmlFor={id} className="pt-4 font-bold">
           {label}
         </label>
-        <input
+        <Input
           id={id}
           type={type}
-          className="mr-2 flex-grow  border-2 border-gray-500 rounded-lg py-2 my-2 px-4 bg-gray-200 placeholder-gray-700 w-full"
           placeholder={label}
           name={name}
           ref={ref}
           maxLength={maxLength}
+          {...otherProps}
         />
       </React.Fragment>
     );

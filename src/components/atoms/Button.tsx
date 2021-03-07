@@ -1,16 +1,49 @@
 import React, { FunctionComponent } from "react";
+import Icon from "./Icon";
 
-interface ButtonProps {
-  title: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  // onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  className?: string;
+  icon?: string;
+  type?: "button" | "submit" | "reset" | undefined;
+  size?: ButtonSize;
+  value?: string;
 }
-const Button: FunctionComponent<ButtonProps> = ({ title, onClick }) => {
+
+export enum ButtonSize {
+  SMALL = "small",
+  MEDIUM = "medium",
+  LARGE = "large",
+}
+
+// color --> light dark --> correspondance bgcolor text color
+// variant --> outline full...
+
+const Button: FunctionComponent<ButtonProps> = ({
+  children,
+  className = "",
+  // onClick,
+  icon,
+  size = ButtonSize.MEDIUM,
+  type,
+  value,
+  ...otherProps
+}) => {
   return (
     <button
-      onClick={onClick}
-      className="self-start border-2 rounded bg-secondary px-2 text-white"
+      type={type}
+      className={`py-2 px-2 rounded inline-flex ${className}`}
+      {...otherProps}
+      aria-labelledby={`button__label`}
     >
-      {title}
+      {icon && <Icon icon={icon} size={size} aria-hidden="true" />}
+      {value ? (
+        <span id={`button__label`} className={icon && "ml-2"}>
+          {value}
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 };

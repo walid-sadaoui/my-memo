@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, Redirect } from "react-router-dom";
-import LabelInput from "./LabelInput";
-import { postRequest } from "../api/index";
+import LabelInput from "../molecules/LabelInput";
+import { postRequest } from "../../api/index";
 interface SignUpFormValues {
   username: string;
   email: string;

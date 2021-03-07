@@ -7,9 +7,9 @@ import React, {
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, Redirect } from "react-router-dom";
-import { postRequest } from "../api";
-import { AuthContext } from "../AuthContext";
-import LabelInput from "./LabelInput";
+import { postRequest } from "../../api";
+import { AuthContext } from "../../AuthContext";
+import LabelInput from "../molecules/LabelInput";
 
 interface LoginFormValues {
   email: string;
@@ -24,9 +24,11 @@ const LogIn: FunctionComponent = () => {
     mode: "onBlur",
   });
 
-  useEffect(() => {
-    emailInputRef.current?.focus();
-  }, []);
+  const sectionClass =
+    "flex flex-col flex-1 p-2 my-auto border-t-4 border-blue-900 mx-auto max-w-2xl shadow-lg";
+  const headerClass =
+    "flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center";
+  const h1Class = "text-5xl font-medium font-hand text-gray-800";
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const { email, password } = data;
@@ -46,13 +48,15 @@ const LogIn: FunctionComponent = () => {
     }
   };
 
+  useEffect(() => {
+    emailInputRef.current?.focus();
+  }, []);
+
   return (
-    <section className="flex flex-col flex-1 p-2 my-auto border-t-4 border-blue-900 mx-auto max-w-2xl shadow-lg">
+    <section className={sectionClass}>
       {logInSuccess ? <Redirect to="/" /> : null}
-      <header className="flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center">
-        <h1 className="text-5xl font-medium font-hand text-gray-800">
-          Connexion
-        </h1>
+      <header className={headerClass}>
+        <h1 className={h1Class}>Connexion</h1>
       </header>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col px-8">
         <LabelInput

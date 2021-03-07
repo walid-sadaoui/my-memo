@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { ReactComponent as Trash } from "../assets/images/trash.svg";
+import { ReactComponent as Trash } from "../../assets/images/trash.svg";
 import AriaModal from "react-aria-modal";
 
 interface ModalProps {
