@@ -8,7 +8,7 @@ import AuthenticatedHeader from "./organisms/Header/AuthenticatedHeader";
 const AuthenticatedApp: FunctionComponent = () => {
   return (
     <Router>
-      <AuthenticatedHeader title="My Memo" />
+      <AuthenticatedHeader />
       <main role="main" className="flex flex-grow overflow-hidden bg-white">
         <AppRoutes />
       </main>
