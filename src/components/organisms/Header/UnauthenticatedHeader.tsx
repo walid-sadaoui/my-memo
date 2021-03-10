@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const Header: React.FC = ({ children }) => {
   return (
-    <header className="flex items-center col-span-2 text-white bg-blue-900 border-b-8 border-blue-500">
+    <header className="flex items-center justify-between col-span-2 text-white bg-blue-900 border-b-8 border-blue-500">
       {children}
     </header>
   );
@@ -21,19 +21,20 @@ const Header: React.FC = ({ children }) => {
 
 const NavBar: React.FC = ({ children }) => {
   return (
-    <nav className="flex items-center justify-between w-full p-4 overflow-hidden font-sans">
+    <nav className="flex items-center justify-between p-4 overflow-hidden font-sans">
       {children}
     </nav>
   );
 };
 
-const LoginLink: React.FC<React.AnchorHTMLAttributes<
-  HTMLAnchorElement
->> = () => {
+const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+  ...otherProps
+}) => {
   return (
     <Link
       to="/login"
       className="flex items-end justify-end flex-1 text-white rounded hover:text-teal-200"
+      {...otherProps}
     >
       <Button icon="userCircle" size={ButtonSize.MEDIUM}>
         <span id="button__label" className="hidden sm:ml-2 sm:flex">
@@ -44,36 +45,23 @@ const LoginLink: React.FC<React.AnchorHTMLAttributes<
   );
 };
 
-const ToggleMobileNavButton: React.FC<{
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}> = ({ onClick }) => {
-  return (
-    <div className="w-full p-4 sm:hidden">
-      <Button
-        icon="menu"
-        size={ButtonSize.MEDIUM}
-        className="w-full p-4 sm:hidden"
-        onClick={onClick}
-      />
-    </div>
-  );
-};
-
 const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
-  const navElements = [{ endpoint: "/notes", label: "Notes" }];
+  // const navElements = [{ endpoint: "/notes", label: "Notes" }];
 
   return (
     <>
-      {mobileNavOpen && <HeaderMobileDetail />}
+      {mobileNavOpen && (
+        <HeaderMobileDetail onClose={(): void => setMobileNavOpen(false)} />
+      )}
       <Header>
-        <ToggleMobileNavButton
-          onClick={(): void => {
-            console.log("cliques");
-            setMobileNavOpen(true);
-          }}
+        <Button
+          icon="menu"
+          size={ButtonSize.MEDIUM}
+          onClick={(): void => setMobileNavOpen(true)}
+          className="m-4 sm:hidden"
         />
-        <Title />
+        <Title onClick={(): void => setMobileNavOpen(false)} />
         <NavBar>
           <ul className="hidden sm:flex sm:flex-row sm:mr-auto sm:ml-4 sm:w-auto">
             <li className="py-2">
