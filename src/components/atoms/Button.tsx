@@ -34,16 +34,9 @@ const Button: FunctionComponent<ButtonProps> = ({
       type={type}
       className={`py-2 px-2 rounded inline-flex ${className}`}
       {...otherProps}
-      aria-labelledby={`button__label`}
     >
       {icon && <Icon icon={icon} size={size} aria-hidden="true" />}
-      {value ? (
-        <span id={`button__label`} className={icon && "ml-2"}>
-          {value}
-        </span>
-      ) : (
-        children
-      )}
+      {value ? <span className={icon && "ml-2"}>{value}</span> : children}
     </button>
   );
 };

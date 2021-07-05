@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import UnauthenticatedHeader from "./organisms/Header/UnauthenticatedHeader";
 import Notes from "./pages/Notes";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 
@@ -23,6 +23,9 @@ const AppRoutes: FunctionComponent = () => {
       <Route path="/notes" component={Notes} />
       <Route path="/signup" component={SignUp} />
       <Route path="/login" component={LogIn} />
+      <Route path="*">
+        <Redirect to="/" />
+      </Route>
     </React.Fragment>
   );
 };

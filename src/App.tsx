@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import React, { FunctionComponent } from "react";
+import { useAuth } from "./AuthContext";
 import Loading from "./components/molecules/Loading";
 
 const AuthenticatedApp = React.lazy(() =>
@@ -9,7 +9,8 @@ const UnauthenticatedApp = React.lazy(() =>
   import("./components/UnauthenticatedApp")
 );
 const App: FunctionComponent = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+
   return (
     <React.Suspense fallback={<Loading />}>
       {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}

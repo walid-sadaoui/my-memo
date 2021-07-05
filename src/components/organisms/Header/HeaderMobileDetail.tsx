@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import { postRequest } from "../../../api";
-import { AuthContext } from "../../../AuthContext";
+import { useAuth } from "../../../AuthContext";
 import Button, { ButtonSize } from "../../atoms/Button";
 import Title from "../../atoms/Title";
 
@@ -37,25 +36,18 @@ const NavBar: React.FC = ({ children }) => {
 const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
   onClose,
 }) => {
-  const { user, setUser } = React.useContext(AuthContext);
-
-  const logout = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    try {
-      const logoutResponse = await postRequest("/logout");
-      if (logoutResponse) {
-        console.log(logoutResponse);
-      }
-      if (setUser) {
-        setUser(undefined);
-      }
-    } catch (error) {}
-  };
+  const { user, logout } = useAuth();
 
   return (
     <div className="absolute flex flex-col items-start w-screen h-screen text-white bg-blue-900 border-b-8 border-blue-500 z-100 sm:hidden">
       <div className="flex items-center justify-between w-full p-4">
         <Title onClick={onClose} />
-        <Button icon="x" size={ButtonSize.MEDIUM} onClick={onClose} />
+        <Button
+          icon="x"
+          size={ButtonSize.MEDIUM}
+          onClick={onClose}
+          aria-label="Close"
+        />
       </div>
       <NavBar>
         <ul className="flex flex-col items-start">
@@ -75,10 +67,10 @@ const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
             size={ButtonSize.MEDIUM}
             onClick={(event): void => {
               onClose(event);
-              logout(event);
+              logout();
             }}
           >
-            <span id="button__label" className="hidden sm:ml-2 sm:flex">
+            <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
               Déconnexion
             </span>
           </Button>

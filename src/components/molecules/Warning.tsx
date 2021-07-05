@@ -1,15 +1,18 @@
 import React, { FunctionComponent } from "react";
-import { ReactComponent as Exclamation } from "../../assets/images/exclamation.svg";
+import Button, { ButtonSize } from "../atoms/Button";
+import Icon from "../atoms/Icon";
 
-const Warning: FunctionComponent = () => {
+interface WarningProps {
+  message: string;
+}
+const Warning: FunctionComponent<WarningProps> = ({ message }) => {
   return (
-    <div className="flex flex-col p-8 sm:flex-row border mx-8 border-red-600 bg-red-100 sm:pl-8 items-center">
-      <Exclamation className="w-8 h-8 sm:mr-2 text-red-600" />
-      <p className="text-red-600">
-        Attention vous utilisez la version hors ligne, vous verrez vos notes
-        seulement sur votre navigateur actuel, connectez vous pour pouvoir
-        sauvegarder vos notes et les consulter partout !{" "}
-      </p>
+    <div className="flex flex-col items-center justify-between p-4 text-red-600 bg-red-100 border border-red-600 sm:flex-row">
+      <div className="p-2">
+        <Icon icon="exclamation" size="medium" />
+      </div>
+      <p>{message}</p>
+      <Button icon="x" size={ButtonSize.MEDIUM} />
     </div>
   );
 };

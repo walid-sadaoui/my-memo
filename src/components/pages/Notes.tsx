@@ -11,7 +11,7 @@ import {
   deleteNote,
   updateNote,
 } from "../../api/notes";
-import { AuthContext } from "../../AuthContext";
+import { useAuth } from "../../AuthContext";
 import Button from "../atoms/Button";
 import Icon from "../atoms/Icon";
 import Input from "../atoms/Input";
@@ -24,8 +24,10 @@ const Notes: React.FunctionComponent = () => {
   const [inputFocussed, setInputFocus] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
   const newNoteInput = React.useRef<HTMLInputElement>(null);
-  const { user } = React.useContext(AuthContext);
+  const { user } = useAuth();
 
+  const USER_OFFLINE_MESSAGE =
+    "Attention vous utilisez la version hors ligne, vous verrez vos notes seulement sur votre navigateur actuel, connectez-vous pour pouvoir sauvegarder vos notes et les consulter partout !";
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
     "Voulez-vous vraiment supprimer la note suivante? Cette action est irréversible :";
@@ -112,54 +114,50 @@ const Notes: React.FunctionComponent = () => {
   }, []);
 
   return (
-    <>
-      {user && <Warning />}
-      <section className="flex flex-col flex-1 py-2">
-        <header className="flex flex-col items-center py-2 pl-8 pr-8 text-gray-900 sm:flex-row">
-          <h1 className="text-5xl font-medium text-gray-800 font-hand">
-            Notes
-          </h1>
-          <form onSubmit={addNote} className={formClass}>
-            <Input
-              type="text"
-              name="newNoteInput"
-              aria-label="New Note input"
-              ref={newNoteInput}
-              className="flex-grow w-full px-4 py-2 mr-2 placeholder-gray-700 bg-gray-200 border-2 border-gray-500 rounded-lg"
-              placeholder="Nouvelle note ..."
-              onChange={handleChange}
-              onFocus={(): void => {
-                setInputFocus(true);
-                newNoteInput.current?.setSelectionRange(
-                  newNoteInput.current.value.length,
-                  newNoteInput.current.value.length
-                );
-              }}
-              onBlur={(): void => setInputFocus(false)}
-              value={description}
-            />
-            <Button className="items-center hidden text-white bg-blue-900 sm:inline-flex hover:bg-blue-800">
-              <Icon icon="plus" size="small" />
-              <span className="ml-2">Note</span>
-            </Button>
-          </form>
-        </header>
+    <section className="flex flex-col flex-1">
+      {!user && <Warning message={USER_OFFLINE_MESSAGE} />}
+      <header className="flex flex-col items-center px-8 py-4 text-gray-900 sm:flex-row">
+        <h1 className="text-5xl font-medium text-gray-800 font-hand">Notes</h1>
+        <form onSubmit={addNote} className={formClass}>
+          <Input
+            type="text"
+            name="newNoteInput"
+            aria-label="New Note input"
+            ref={newNoteInput}
+            className="flex-grow w-full px-4 py-2 mr-2 placeholder-gray-700 bg-gray-200 border-2 border-gray-500 rounded-lg"
+            placeholder="Nouvelle note ..."
+            onChange={handleChange}
+            onFocus={(): void => {
+              setInputFocus(true);
+              newNoteInput.current?.setSelectionRange(
+                newNoteInput.current.value.length,
+                newNoteInput.current.value.length
+              );
+            }}
+            onBlur={(): void => setInputFocus(false)}
+            value={description}
+          />
+          <Button className="items-center hidden text-white bg-blue-900 sm:inline-flex hover:bg-blue-800">
+            <Icon icon="plus" size="small" />
+            <span className="ml-2">Note</span>
+          </Button>
+        </form>
+      </header>
 
-        {loading && <Loading />}
+      {loading && <Loading />}
 
-        {notes.length > 0 ? (
-          <ul className="flex flex-col p-4 overflow-y-scroll">
-            {notes.map(renderNoteItem)}
-          </ul>
-        ) : (
-          <p>
-            Aucune Note, ajoutez une nouvelle note pour la voir s'afficher ici
-          </p>
-        )}
+      {notes.length > 0 ? (
+        <ul className="flex flex-col p-4 overflow-y-scroll">
+          {notes.map(renderNoteItem)}
+        </ul>
+      ) : (
+        <p>
+          Aucune Note, ajoutez une nouvelle note pour la voir s'afficher ici
+        </p>
+      )}
 
-        <DeleteNoteModal />
-      </section>
-    </>
+      <DeleteNoteModal />
+    </section>
   );
 };
 

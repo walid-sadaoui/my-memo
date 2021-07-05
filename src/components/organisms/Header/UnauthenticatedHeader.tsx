@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { Link } from "react-router-dom";
 import Button, { ButtonSize } from "../../atoms/Button";
 import Title from "../../atoms/Title";
+import { Header, NavBar } from "./HeaderElements";
 import HeaderMobileDetail from "./HeaderMobileDetail";
 
 interface HeaderProps {
@@ -11,33 +12,17 @@ interface HeaderProps {
   className?: string;
 }
 
-const Header: React.FC = ({ children }) => {
-  return (
-    <header className="flex items-center justify-between col-span-2 text-white bg-blue-900 border-b-8 border-blue-500">
-      {children}
-    </header>
-  );
-};
-
-const NavBar: React.FC = ({ children }) => {
-  return (
-    <nav className="flex items-center justify-between p-4 overflow-hidden font-sans">
-      {children}
-    </nav>
-  );
-};
-
 const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   ...otherProps
 }) => {
   return (
     <Link
       to="/login"
-      className="flex items-end justify-end flex-1 text-white rounded hover:text-teal-200"
+      className="flex items-end justify-end text-white rounded hover:text-teal-200"
       {...otherProps}
     >
       <Button icon="userCircle" size={ButtonSize.MEDIUM}>
-        <span id="button__label" className="hidden sm:ml-2 sm:flex">
+        <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
           Connexion
         </span>
       </Button>
@@ -60,6 +45,7 @@ const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
           size={ButtonSize.MEDIUM}
           onClick={(): void => setMobileNavOpen(true)}
           className="m-4 sm:hidden"
+          aria-label="Menu"
         />
         <Title onClick={(): void => setMobileNavOpen(false)} />
         <NavBar>

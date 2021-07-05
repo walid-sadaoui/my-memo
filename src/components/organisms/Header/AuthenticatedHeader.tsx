@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useContext, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Link } from "react-router-dom";
-import { postRequest } from "../../../api";
-import { AuthContext } from "../../../AuthContext";
+import { useAuth } from "../../../AuthContext";
 import Button, { ButtonSize } from "../../atoms/Button";
 import HeaderMobileDetail from "./HeaderMobileDetail";
 import Title from "../../atoms/Title";
+import { Header, NavBar } from "./HeaderElements";
 
 interface HeaderProps {
   categories?: string[];
@@ -12,37 +12,9 @@ interface HeaderProps {
   className?: string;
 }
 
-const Header: React.FC = ({ children }) => {
-  return (
-    <header className="flex items-center justify-between col-span-2 text-white bg-blue-900 border-b-8 border-blue-500">
-      {children}
-    </header>
-  );
-};
-
-const NavBar: React.FC = ({ children }) => {
-  return (
-    <nav className="flex items-center justify-between p-4 overflow-hidden font-sans">
-      {children}
-    </nav>
-  );
-};
-
 const AuthenticatedHeader: FunctionComponent<HeaderProps> = () => {
-  const { setUser } = useContext(AuthContext);
+  const { logout } = useAuth();
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
-
-  const logout = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    try {
-      const logoutResponse = await postRequest("/logout");
-      if (logoutResponse) {
-        console.log(logoutResponse);
-      }
-      if (setUser) {
-        setUser(undefined);
-      }
-    } catch (error) {}
-  };
 
   return (
     <>
@@ -55,6 +27,7 @@ const AuthenticatedHeader: FunctionComponent<HeaderProps> = () => {
           size={ButtonSize.MEDIUM}
           onClick={(): void => setMobileNavOpen(true)}
           className="m-4 sm:hidden"
+          aria-label="Menu"
         />
         <Title onClick={(): void => setMobileNavOpen(false)} />
         <NavBar>
@@ -74,10 +47,10 @@ const AuthenticatedHeader: FunctionComponent<HeaderProps> = () => {
             size={ButtonSize.MEDIUM}
             onClick={(event): void => {
               setMobileNavOpen(false);
-              logout(event);
+              logout();
             }}
           >
-            <span id="button__label" className="hidden sm:ml-2 sm:flex">
+            <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
               Déconnexion
             </span>
           </Button>

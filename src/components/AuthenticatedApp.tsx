@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from "react";
 import Notes from "./pages/Notes";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
 import AuthenticatedHeader from "./organisms/Header/AuthenticatedHeader";
 
 const AuthenticatedApp: FunctionComponent = () => {
@@ -22,7 +21,9 @@ const AppRoutes: FunctionComponent = () => {
       <Route exact={true} path="/" component={Notes} />
       <Route path="/notes" component={Notes} />
       <Route path="/signup" component={SignUp} />
-      <Route path="/login" component={LogIn} />
+      <Route path="/login">
+        <Redirect to="/" />
+      </Route>
     </Router>
   );
 };

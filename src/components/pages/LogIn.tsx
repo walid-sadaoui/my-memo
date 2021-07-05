@@ -1,15 +1,9 @@
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FunctionComponent, useEffect, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, Redirect } from "react-router-dom";
-import { postRequest } from "../../api";
-import { AuthContext } from "../../AuthContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
 import LabelInput from "../molecules/LabelInput";
+import Button from "../atoms/Button";
 
 interface LoginFormValues {
   email: string;
@@ -17,35 +11,17 @@ interface LoginFormValues {
 }
 
 const LogIn: FunctionComponent = () => {
-  const { setUser } = useContext(AuthContext);
-  const [logInSuccess, setLogInSuccess] = useState<boolean>(false);
+  const { login } = useAuth();
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
   });
 
-  const sectionClass =
-    "flex flex-col flex-1 p-2 my-auto border-t-4 border-blue-900 mx-auto max-w-2xl shadow-lg";
-  const headerClass =
-    "flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center";
-  const h1Class = "text-5xl font-medium font-hand text-gray-800";
-
-  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-    const { email, password } = data;
-    const formData = { email, password };
-    const logInResponse = await postRequest(
-      "/signin",
-      JSON.stringify(formData)
-    );
-    console.log(logInResponse);
-    if (logInResponse.code === 200 && setUser) {
-      setUser(logInResponse.user);
-      console.log(JSON.stringify(logInResponse));
-      console.log(JSON.stringify(logInResponse.user));
-      setTimeout(() => {
-        setLogInSuccess(true);
-      }, 2000);
-    }
+  const onSubmit: SubmitHandler<LoginFormValues> = async ({
+    email,
+    password,
+  }) => {
+    await login({ email, password });
   };
 
   useEffect(() => {
@@ -53,10 +29,11 @@ const LogIn: FunctionComponent = () => {
   }, []);
 
   return (
-    <section className={sectionClass}>
-      {logInSuccess ? <Redirect to="/" /> : null}
-      <header className={headerClass}>
-        <h1 className={h1Class}>Connexion</h1>
+    <section className="flex flex-col flex-1 p-2 my-auto sm:border-t-4 sm:border-blue-900 mx-auto max-w-2xl sm:shadow-lg">
+      <header className="flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center">
+        <h1 className="text-5xl font-medium font-hand text-gray-800">
+          Connexion
+        </h1>
       </header>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col px-8">
         <LabelInput
@@ -88,19 +65,20 @@ const LogIn: FunctionComponent = () => {
             et un chiffre
           </span>
         )}
-        <Link to="/signup" className="hover:underline text-blue-700 mr-auto">
-          <span>Mot de passe oublié ?</span>
+        <Link to="/signup" className="mr-auto text-blue-700 hover:underline">
+          Mot de passe oublié ?
         </Link>
+        <Button value="Se Connecter" type="submit" />
         <button
           type="submit"
-          className="bg-blue-900 text-white py-2 my-4 px-4 mx-auto rounded inline-flex items-center hover:bg-blue-800"
+          className="inline-flex items-center px-4 py-2 mx-auto my-4 text-white bg-blue-900 rounded hover:bg-blue-800"
         >
           Se Connecter
         </button>
       </form>
       <span className="mx-auto">
         Vous n'avez pas de compte ?{" "}
-        <Link to="/signup" className="hover:underline text-blue-700">
+        <Link to="/signup" className="text-blue-700 hover:underline">
           Créez un compte
         </Link>
       </span>
