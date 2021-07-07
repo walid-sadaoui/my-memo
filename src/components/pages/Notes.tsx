@@ -116,7 +116,7 @@ const Notes: React.FunctionComponent = () => {
   return (
     <section className="flex flex-col flex-1">
       {!user && <Warning message={USER_OFFLINE_MESSAGE} />}
-      <header className="flex flex-col items-center px-8 py-4 text-gray-900 sm:flex-row">
+      <header className="flex flex-col items-center px-4 py-4 text-gray-900 sm:flex-row">
         <h1 className="text-5xl font-medium text-gray-800 font-hand">Notes</h1>
         <form onSubmit={addNote} className={formClass}>
           <Input
@@ -124,7 +124,7 @@ const Notes: React.FunctionComponent = () => {
             name="newNoteInput"
             aria-label="New Note input"
             ref={newNoteInput}
-            className="flex-grow w-full px-4 py-2 mr-2 placeholder-gray-700 bg-gray-200 border-2 border-gray-500 rounded-lg"
+            className="flex-grow w-full px-4 py-2 placeholder-gray-700 bg-gray-200 border-2 border-gray-500 rounded-lg sm:mr-2"
             placeholder="Nouvelle note ..."
             onChange={handleChange}
             onFocus={(): void => {
@@ -147,12 +147,10 @@ const Notes: React.FunctionComponent = () => {
       {loading && <Loading />}
 
       {notes.length > 0 ? (
-        <ul className="flex flex-col p-4 overflow-y-scroll">
-          {notes.map(renderNoteItem)}
-        </ul>
+        <ul className="flex flex-col p-4">{notes.map(renderNoteItem)}</ul>
       ) : (
-        <p>
-          Aucune Note, ajoutez une nouvelle note pour la voir s'afficher ici
+        <p className="m-auto">
+          Aucune Note, créez une nouvelle note pour la voir s'afficher ici
         </p>
       )}
 

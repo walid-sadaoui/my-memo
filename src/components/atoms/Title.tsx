@@ -7,7 +7,11 @@ interface TitleProps {
 
 const Title: FunctionComponent<TitleProps> = ({ onClick }) => {
   return (
-    <Link to="/" onClick={onClick} className="sm:pl-8">
+    <Link
+      to={process.env.PUBLIC_URL + "/"}
+      onClick={onClick}
+      className="sm:pl-8"
+    >
       <pre className="text-3xl font-hand">My Memo</pre>
     </Link>
   );

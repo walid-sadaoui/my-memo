@@ -54,7 +54,7 @@ const AuthProvider: React.FC = ({ children }) => {
         JSON.stringify(newUser)
       );
       console.log(logInResponse);
-      if (logInResponse.data.code === 200) {
+      if (logInResponse.data) {
         setUser(logInResponse.data.user);
         return true;
       }

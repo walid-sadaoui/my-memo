@@ -17,7 +17,7 @@ const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 }) => {
   return (
     <Link
-      to="/login"
+      to={process.env.PUBLIC_URL + "/login"}
       className="flex items-end justify-end text-white rounded hover:text-teal-200"
       {...otherProps}
     >
@@ -32,7 +32,6 @@ const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 
 const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
-  // const navElements = [{ endpoint: "/notes", label: "Notes" }];
 
   return (
     <>
@@ -52,7 +51,7 @@ const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
           <ul className="hidden sm:flex sm:flex-row sm:mr-auto sm:ml-4 sm:w-auto">
             <li className="py-2">
               <Link
-                to="/notes"
+                to={process.env.PUBLIC_URL + "/notes"}
                 onClick={(): void => setMobileNavOpen(false)}
                 className="ml-2 mr-4 text-teal-200 hover:text-white"
               >

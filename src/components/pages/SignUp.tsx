@@ -27,16 +27,18 @@ const SignUp: FunctionComponent = () => {
       "/signup",
       JSON.stringify(formData)
     );
-    if (signUpResponse.code === 200) {
+    if (signUpResponse.data) {
       setSignUpSuccess(true);
     }
   };
 
   return (
-    <section className="flex flex-col flex-1 p-2 border-t-4 border-blue-900 my-auto shadow-lg w-full max-w-2xl mx-auto">
-      {signUpSuccess ? <Redirect to="/login" /> : null}
-      <header className="flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center">
-        <h1 className="text-5xl font-medium font-hand text-gray-800">
+    <section className="flex flex-col flex-1 w-full max-w-2xl p-2 mx-auto my-auto sm:shadow-lg sm:border-t-4 sm:border-blue-900">
+      {signUpSuccess ? (
+        <Redirect to={process.env.PUBLIC_URL + "/login"} />
+      ) : null}
+      <header className="flex items-center justify-center py-2 pl-8 pr-12 text-gray-900">
+        <h1 className="text-5xl font-medium text-gray-800 font-hand">
           Inscription
         </h1>
       </header>
@@ -78,7 +80,6 @@ const SignUp: FunctionComponent = () => {
             une majuscule, une minuscule, un chiffre et un caractère spécial
           </span>
         )}
-        {/* TODO maxLength + Maj + chiffre */}
         <LabelInput
           id="signup-password-confirm"
           name="confirmPassword"
@@ -96,14 +97,17 @@ const SignUp: FunctionComponent = () => {
         )}
         <button
           type="submit"
-          className="bg-blue-900 text-white py-2 my-4 px-4 mx-auto rounded inline-flex items-center hover:bg-blue-800"
+          className="inline-flex items-center px-4 py-2 mx-auto my-4 text-white bg-blue-900 rounded hover:bg-blue-800"
         >
           S'inscrire
         </button>
       </form>
       <span className="mx-auto">
         Vous avez déjà un compte ?{" "}
-        <Link to="/login" className="hover:underline text-blue-700">
+        <Link
+          to={process.env.PUBLIC_URL + "/login"}
+          className="text-blue-700 hover:underline"
+        >
           Connectez-vous
         </Link>
       </span>

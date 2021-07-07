@@ -42,7 +42,7 @@ const NoteItem: React.FunctionComponent<NoteProps> = ({
   }, [noteSelected]);
 
   return (
-    <li className="flex items-center w-full justify-between px-3 border-2 border-gray-500 rounded py-1 my-1 mx-4 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-sm">
+    <li className="flex items-center justify-between w-full px-3 py-1 my-1 text-gray-800 bg-gray-200 border-2 border-gray-500 rounded hover:bg-gray-300 hover:shadow-sm">
       <Button
         onClick={onPin}
         data-tip={!note.pinned ? "Epingler la note" : "Retirer l'épingle"}

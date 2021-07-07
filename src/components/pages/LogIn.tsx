@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import LabelInput from "../molecules/LabelInput";
-import Button from "../atoms/Button";
 
 interface LoginFormValues {
   email: string;
@@ -29,9 +28,9 @@ const LogIn: FunctionComponent = () => {
   }, []);
 
   return (
-    <section className="flex flex-col flex-1 p-2 my-auto sm:border-t-4 sm:border-blue-900 mx-auto max-w-2xl sm:shadow-lg">
-      <header className="flex pl-8 pr-12 py-2 items-center text-gray-900 justify-center">
-        <h1 className="text-5xl font-medium font-hand text-gray-800">
+    <section className="flex flex-col flex-1 max-w-2xl p-2 mx-auto my-auto sm:border-t-4 sm:border-blue-900 sm:shadow-lg">
+      <header className="flex items-center justify-center py-2 pl-8 pr-12 text-gray-900">
+        <h1 className="text-5xl font-medium text-gray-800 font-hand">
           Connexion
         </h1>
       </header>
@@ -65,10 +64,12 @@ const LogIn: FunctionComponent = () => {
             et un chiffre
           </span>
         )}
-        <Link to="/signup" className="mr-auto text-blue-700 hover:underline">
+        <Link
+          to={process.env.PUBLIC_URL + "/signup"}
+          className="mr-auto text-blue-700 hover:underline"
+        >
           Mot de passe oublié ?
         </Link>
-        <Button value="Se Connecter" type="submit" />
         <button
           type="submit"
           className="inline-flex items-center px-4 py-2 mx-auto my-4 text-white bg-blue-900 rounded hover:bg-blue-800"
@@ -78,7 +79,10 @@ const LogIn: FunctionComponent = () => {
       </form>
       <span className="mx-auto">
         Vous n'avez pas de compte ?{" "}
-        <Link to="/signup" className="text-blue-700 hover:underline">
+        <Link
+          to={process.env.PUBLIC_URL + "/signup"}
+          className="text-blue-700 hover:underline"
+        >
           Créez un compte
         </Link>
       </span>

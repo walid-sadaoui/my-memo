@@ -16,7 +16,7 @@ const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 }) => {
   return (
     <Link
-      to="/login"
+      to={process.env.PUBLIC_URL + "/login"}
       className="flex text-white rounded hover:text-teal-200"
       {...props}
     >
@@ -53,7 +53,7 @@ const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
         <ul className="flex flex-col items-start">
           <li className="py-2">
             <Link
-              to="/notes"
+              to={process.env.PUBLIC_URL + "/notes"}
               onClick={onClose}
               className="ml-2 mr-4 text-teal-200 hover:text-white"
             >

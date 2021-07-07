@@ -9,7 +9,7 @@ const UnauthenticatedApp: FunctionComponent = () => {
   return (
     <Router>
       <UnauthenticatedHeader />
-      <main role="main" className="flex flex-grow overflow-hidden bg-white">
+      <main role="main" className="flex flex-grow overflow-y-auto bg-white">
         <AppRoutes />
       </main>
     </Router>
@@ -19,12 +19,16 @@ const UnauthenticatedApp: FunctionComponent = () => {
 const AppRoutes: FunctionComponent = () => {
   return (
     <React.Fragment>
-      <Route exact={true} path="/" component={Notes} />
-      <Route path="/notes" component={Notes} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/login" component={LogIn} />
+      <Route
+        exact={true}
+        path={process.env.PUBLIC_URL + "/"}
+        component={Notes}
+      />
+      <Route path={process.env.PUBLIC_URL + "/notes"} component={Notes} />
+      <Route path={process.env.PUBLIC_URL + "/signup"} component={SignUp} />
+      <Route path={process.env.PUBLIC_URL + "/login"} component={LogIn} />
       <Route path="*">
-        <Redirect to="/" />
+        <Redirect to={process.env.PUBLIC_URL + "/"} />
       </Route>
     </React.Fragment>
   );

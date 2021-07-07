@@ -34,7 +34,7 @@ const AuthenticatedHeader: FunctionComponent<HeaderProps> = () => {
           <ul className="hidden sm:flex sm:flex-row sm:mr-auto sm:ml-4 sm:w-auto">
             <li className="py-2">
               <Link
-                to="/notes"
+                to={process.env.PUBLIC_URL + "/notes"}
                 onClick={(): void => setMobileNavOpen(false)}
                 className="ml-2 mr-4 text-teal-200 hover:text-white"
               >
