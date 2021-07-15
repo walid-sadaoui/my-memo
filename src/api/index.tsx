@@ -27,21 +27,27 @@ const fetchAPI = async (
     });
     const responseData = await response.json();
     return responseData;
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 const getRequest = async (route: string) => {
   try {
     const getResponseData = await fetchAPI(route, RESTMethods.GET);
     return getResponseData;
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 const postRequest = async (route: string, body?: string) => {
   try {
     const getResponseData = await fetchAPI(route, RESTMethods.POST, body);
     return getResponseData;
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export { getRequest, postRequest };

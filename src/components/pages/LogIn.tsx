@@ -10,6 +10,7 @@ interface LoginFormValues {
 }
 
 const LogIn: FunctionComponent = () => {
+  const [loginErrorMessage, setLoginErrorMessage] = React.useState<string>("");
   const { login } = useAuth();
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const { register, handleSubmit, errors } = useForm({
@@ -20,7 +21,14 @@ const LogIn: FunctionComponent = () => {
     email,
     password,
   }) => {
-    await login({ email, password });
+    try {
+      const loginSuccess = await login({ email, password });
+      if (!loginSuccess) {
+        setLoginErrorMessage("Erreur de connexion");
+      }
+    } catch (error) {
+      setLoginErrorMessage(`Une erreur est survenue : ${error}`);
+    }
   };
 
   useEffect(() => {
@@ -86,6 +94,9 @@ const LogIn: FunctionComponent = () => {
           Créez un compte
         </Link>
       </span>
+      {loginErrorMessage && (
+        <span className="mx-auto text-red-500">{loginErrorMessage}</span>
+      )}
     </section>
   );
 };

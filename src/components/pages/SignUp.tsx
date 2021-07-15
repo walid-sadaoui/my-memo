@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, Redirect } from "react-router-dom";
 import LabelInput from "../molecules/LabelInput";
-import { postRequest } from "../../api/index";
+import { useAuth } from "../../AuthContext";
 interface SignUpFormValues {
   username: string;
   email: string;
@@ -11,6 +11,10 @@ interface SignUpFormValues {
 
 const SignUp: FunctionComponent = () => {
   const [signUpSuccess, setSignUpSuccess] = useState<boolean>(false);
+  const [signupErrorMessage, setsignupErrorMessage] = React.useState<string>(
+    ""
+  );
+  const { signup } = useAuth();
   const usernameInputRef = useRef<HTMLInputElement | null>(null);
   const { register, handleSubmit, errors, watch } = useForm({
     mode: "onBlur",
@@ -22,13 +26,16 @@ const SignUp: FunctionComponent = () => {
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     const { username, email, password } = data;
-    const formData = { username, email, password };
-    const signUpResponse = await postRequest(
-      "/signup",
-      JSON.stringify(formData)
-    );
-    if (signUpResponse.data) {
-      setSignUpSuccess(true);
+
+    try {
+      const signupSuccess = await signup({ username, email, password });
+      if (signupSuccess) {
+        setSignUpSuccess(true);
+      } else {
+        setsignupErrorMessage("Une erreur est survenue");
+      }
+    } catch (error) {
+      setsignupErrorMessage(`Une erreur est survenue : ${error.message}`);
     }
   };
 
@@ -105,12 +112,15 @@ const SignUp: FunctionComponent = () => {
       <span className="mx-auto">
         Vous avez déjà un compte ?{" "}
         <Link
-          to={process.env.PUBLIC_URL + "/login"}
+          to={process.env.PUBLIC_URL + "/signup"}
           className="text-blue-700 hover:underline"
         >
           Connectez-vous
         </Link>
       </span>
+      {signupErrorMessage && (
+        <span className="mx-auto text-red-500">{signupErrorMessage}</span>
+      )}
     </section>
   );
 };

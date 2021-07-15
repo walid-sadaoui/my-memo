@@ -25,6 +25,20 @@ const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   );
 };
 
+const LogoutLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+  ...props
+}) => {
+  return (
+    <Link
+      to={process.env.PUBLIC_URL + "/logout"}
+      className="flex text-white rounded hover:text-teal-200"
+      {...props}
+    >
+      <Button icon="userCircle" size={ButtonSize.MEDIUM} value="Deconnexion" />
+    </Link>
+  );
+};
+
 const NavBar: React.FC = ({ children }) => {
   return (
     <nav className="flex flex-col items-start h-screen p-4 font-sans">
@@ -62,18 +76,12 @@ const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
           </li>
         </ul>
         {user ? (
-          <Button
-            icon="userCircle"
-            size={ButtonSize.MEDIUM}
+          <LogoutLink
             onClick={(event): void => {
               onClose(event);
               logout();
             }}
-          >
-            <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
-              Déconnexion
-            </span>
-          </Button>
+          />
         ) : (
           <LoginLink onClick={onClose} />
         )}

@@ -8,7 +8,8 @@ interface LoginFormValues {
   password: string;
 }
 
-interface RegisterFormValues {
+interface SignupFormValues {
+  username: string;
   email: string;
   password: string;
 }
@@ -17,6 +18,7 @@ type AuthContextProps = {
   user: Partial<User> | undefined;
   logout: () => Promise<void>;
   login: (newUser: LoginFormValues) => Promise<boolean>;
+  signup: (newUser: SignupFormValues) => Promise<boolean>;
 };
 
 const AuthContext = React.createContext<AuthContextProps | undefined>(
@@ -44,6 +46,21 @@ const AuthProvider: React.FC = ({ children }) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+    }
+  };
+
+  const signup = async (newUser: SignupFormValues): Promise<boolean> => {
+    try {
+      const signUpResponse = await postRequest(
+        "/signup",
+        JSON.stringify(newUser)
+      );
+      if (signUpResponse.data) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      throw new Error(`Signup error : ${error}`);
     }
   };
 
@@ -81,7 +98,7 @@ const AuthProvider: React.FC = ({ children }) => {
   if (isLoading) return <Loading />;
 
   return (
-    <AuthContext.Provider value={{ user, logout, login }}>
+    <AuthContext.Provider value={{ user, logout, login, signup }}>
       {children}
     </AuthContext.Provider>
   );
