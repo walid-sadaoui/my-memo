@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { Note } from "../../models/Note";
 import Modal from "../organisms/Modal";
-import Warning from "../molecules/Warning";
+// import Warning from "../molecules/Warning";
 import Loading from "../molecules/Loading";
 import NoteItem from "../molecules/NoteItem";
 import {
@@ -11,7 +11,7 @@ import {
   deleteNote,
   updateNote,
 } from "../../api/notes";
-import { useAuth } from "../../AuthContext";
+// import { useAuth } from "../../AuthContext";
 import Button from "../atoms/Button";
 import Icon from "../atoms/Icon";
 import Input from "../atoms/Input";
@@ -24,10 +24,10 @@ const Notes: React.FunctionComponent = () => {
   const [inputFocussed, setInputFocus] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
   const newNoteInput = React.useRef<HTMLInputElement>(null);
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  const USER_OFFLINE_MESSAGE =
-    "Attention vous utilisez la version hors ligne, vous verrez vos notes seulement sur votre navigateur actuel, connectez-vous pour pouvoir sauvegarder vos notes et les consulter partout !";
+  // const USER_OFFLINE_MESSAGE =
+  //   "Attention vous utilisez la version hors ligne, vous verrez vos notes seulement sur votre navigateur actuel, connectez-vous pour pouvoir sauvegarder vos notes et les consulter partout !";
   const deleteNoteTitle = "Delete Note";
   const deleteNoteMessage =
     "Voulez-vous vraiment supprimer la note suivante? Cette action est irréversible :";
@@ -115,7 +115,7 @@ const Notes: React.FunctionComponent = () => {
 
   return (
     <section className="flex flex-col flex-1">
-      {!user && <Warning message={USER_OFFLINE_MESSAGE} />}
+      {/* {!user && <Warning message={USER_OFFLINE_MESSAGE} />} */}
       <header className="flex flex-col items-center px-4 py-4 text-gray-900 sm:flex-row">
         <h1 className="text-5xl font-medium text-gray-800 font-hand">Notes</h1>
         <form onSubmit={addNote} className={formClass}>

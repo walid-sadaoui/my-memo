@@ -11,33 +11,33 @@ interface HeaderMobileDetailProps {
   onClose: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
-  ...props
-}) => {
-  return (
-    <Link
-      to={process.env.PUBLIC_URL + "/login"}
-      className="flex text-white rounded hover:text-teal-200"
-      {...props}
-    >
-      <Button icon="userCircle" size={ButtonSize.MEDIUM} value="Connexion" />
-    </Link>
-  );
-};
+// const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+//   ...props
+// }) => {
+//   return (
+//     <Link
+//       to={process.env.PUBLIC_URL + "/login"}
+//       className="flex text-white rounded hover:text-teal-200"
+//       {...props}
+//     >
+//       <Button icon="userCircle" size={ButtonSize.MEDIUM} value="Connexion" />
+//     </Link>
+//   );
+// };
 
-const LogoutLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
-  ...props
-}) => {
-  return (
-    <Link
-      to={process.env.PUBLIC_URL + "/logout"}
-      className="flex text-white rounded hover:text-teal-200"
-      {...props}
-    >
-      <Button icon="userCircle" size={ButtonSize.MEDIUM} value="Deconnexion" />
-    </Link>
-  );
-};
+// const LogoutLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+//   ...props
+// }) => {
+//   return (
+//     <Link
+//       to={process.env.PUBLIC_URL + "/logout"}
+//       className="flex text-white rounded hover:text-teal-200"
+//       {...props}
+//     >
+//       <Button icon="userCircle" size={ButtonSize.MEDIUM} value="Deconnexion" />
+//     </Link>
+//   );
+// };
 
 const NavBar: React.FC = ({ children }) => {
   return (
@@ -50,7 +50,7 @@ const NavBar: React.FC = ({ children }) => {
 const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
   onClose,
 }) => {
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
 
   return (
     <div className="absolute flex flex-col items-start w-screen h-screen text-white bg-blue-900 border-b-8 border-blue-500 z-100 sm:hidden">
@@ -75,7 +75,7 @@ const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
             </Link>
           </li>
         </ul>
-        {user ? (
+        {/* {user ? (
           <LogoutLink
             onClick={(event): void => {
               onClose(event);
@@ -84,7 +84,7 @@ const HeaderMobileDetail: FunctionComponent<HeaderMobileDetailProps> = ({
           />
         ) : (
           <LoginLink onClick={onClose} />
-        )}
+        )} */}
       </NavBar>
     </div>
   );

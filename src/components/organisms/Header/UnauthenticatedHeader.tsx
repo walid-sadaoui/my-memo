@@ -59,7 +59,7 @@ const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
               </Link>
             </li>
           </ul>
-          <LoginLink onClick={(): void => setMobileNavOpen(false)} />
+          {/* <LoginLink onClick={(): void => setMobileNavOpen(false)} /> */}
         </NavBar>
       </Header>
     </>
