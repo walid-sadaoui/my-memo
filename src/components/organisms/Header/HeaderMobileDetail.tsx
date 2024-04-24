@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../AuthContext";
+// import { useAuth } from "../../../AuthContext";
 import Button, { ButtonSize } from "../../atoms/Button";
 import Title from "../../atoms/Title";
 

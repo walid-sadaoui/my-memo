@@ -12,23 +12,23 @@ interface HeaderProps {
   className?: string;
 }
 
-const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
-  ...otherProps
-}) => {
-  return (
-    <Link
-      to={process.env.PUBLIC_URL + "/login"}
-      className="flex items-end justify-end text-white rounded hover:text-teal-200"
-      {...otherProps}
-    >
-      <Button icon="userCircle" size={ButtonSize.MEDIUM}>
-        <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
-          Connexion
-        </span>
-      </Button>
-    </Link>
-  );
-};
+// const LoginLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+//   ...otherProps
+// }) => {
+//   return (
+//     <Link
+//       to={process.env.PUBLIC_URL + "/login"}
+//       className="flex items-end justify-end text-white rounded hover:text-teal-200"
+//       {...otherProps}
+//     >
+//       <Button icon="userCircle" size={ButtonSize.MEDIUM}>
+//         <span className="sr-only sm:not-sr-only sm:ml-2 sm:flex">
+//           Connexion
+//         </span>
+//       </Button>
+//     </Link>
+//   );
+// };
 
 const UnauthenticatedHeader: FunctionComponent<HeaderProps> = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
